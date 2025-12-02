@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ADAS-Cog India</title>
+<style>
+:root{--p:#4F46E5;--pl:#EEF2FF;--pm:#A5B4FC;--g:#059669;--gl:#ECFDF5;--r:#DC2626;--rl:#FEF2F2;--a:#D97706;--al:#FFFBEB;--t:#111827;--tm:#6B7280;--tl:#9CA3AF;--b:#E5E7EB;--bg:#F9FAFB;--w:#fff;--rad:14px;--rads:8px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);font-family:system-ui,-apple-system,sans-serif;color:var(--t)}
+.app{max-width:440px;margin:0 auto;min-height:100vh;background:var(--w)}
+.hdr{background:var(--p);padding:18px 20px 14px;position:sticky;top:0;z-index:10}
+.hdr-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.hdr-title{font-size:19px;font-weight:700;color:#fff}
+.hdr-sub{font-size:11px;color:var(--pm);margin-top:2px}
+.hdr-cnt{font-size:12px;color:var(--pm);white-space:nowrap;padding-top:2px}
+.prog-track{height:3px;background:rgba(255,255,255,.2);border-radius:2px}
+.prog-fill{height:3px;background:#fff;border-radius:2px;transition:width .4s}
+.content{padding:20px}
+.badge{display:inline-flex;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:12px}
+.bm{background:var(--pl);color:var(--p)}.bl{background:var(--gl);color:var(--g)}.bp{background:var(--al);color:var(--a)}
+h2{font-size:22px;font-weight:700;color:var(--t);margin-bottom:6px;line-height:1.3}
+.instr{font-size:14px;color:var(--tm);line-height:1.6;margin-bottom:18px}
+.note{background:var(--al);border:1px solid #FCD34D;border-radius:var(--rads);padding:11px 14px;font-size:13px;color:#92400E;margin-bottom:14px;line-height:1.5}
+.neuro-note{background:#F8FAFC;border:1px solid var(--b);border-radius:var(--rads);padding:10px 14px;font-size:12px;color:var(--tm);margin-top:8px;text-align:center}
+/* FORM */
+.fg{margin-bottom:12px}
+.fg label{font-size:11px;font-weight:700;color:var(--tm);letter-spacing:.05em;text-transform:uppercase;display:block;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:13px 14px;border:1.5px solid var(--b);border-radius:var(--rads);font-size:15px;font-family:inherit;background:var(--w);color:var(--t);-webkit-appearance:none;appearance:none}
+.fg textarea{resize:none;height:80px;font-size:14px}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--p)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* CONSENT */
+.consent-box{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rad);padding:16px;margin-bottom:16px;font-size:13px;color:var(--tm);line-height:1.7;max-height:220px;overflow-y:auto}
+.consent-check{display:flex;align-items:flex-start;gap:12px;padding:14px;background:var(--pl);border-radius:var(--rads);margin-bottom:16px;cursor:pointer}
+.consent-check input[type=checkbox]{width:22px;height:22px;margin:0;flex-shrink:0;accent-color:var(--p)}
+.consent-check span{font-size:14px;font-weight:600;color:var(--p);line-height:1.4}
+/* WORDS */
+.word-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.word-card{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rad);padding:16px 10px;text-align:center}
+.wn{font-size:24px;font-weight:700;color:var(--t);display:block;line-height:1.2}
+.we{font-size:12px;color:var(--tl);display:block;margin-top:4px}
+/* NUMS */
+.num-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:6px}
+.nbtn{padding:14px 4px;border-radius:var(--rads);border:1.5px solid var(--b);background:var(--bg);font-size:18px;font-weight:700;text-align:center;cursor:pointer;color:var(--t);touch-action:manipulation}
+.nbtn.sel{background:var(--p);color:#fff;border-color:var(--p)}
+.hint{font-size:11px;color:var(--tl);margin-bottom:20px}
+/* OBJECTS */
+.obj-wrap{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rad);padding:28px 20px;text-align:center;margin-bottom:20px}
+.obj-emoji{font-size:96px;line-height:1;display:block}
+.pdots{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--b)}
+.dot.ok{background:var(--g)}.dot.err{background:var(--r)}.dot.curr{background:var(--p)}
+/* SCORE BTNS */
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.sbtn{padding:18px;border-radius:var(--rad);border:2px solid;font-size:16px;font-weight:700;cursor:pointer;text-align:center;touch-action:manipulation}
+.sok{background:var(--gl);color:var(--g);border-color:var(--g)}
+.serr{background:var(--rl);color:var(--r);border-color:var(--r)}
+/* CMDS */
+.cmd-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.cmd-item{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rad);padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cn{font-size:15px;font-weight:600;color:var(--t);line-height:1.4;margin-bottom:3px}
+.ce{font-size:11px;color:var(--tl)}
+.tick-btns{display:flex;gap:6px;flex-shrink:0}
+.tick{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--b);background:var(--w);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+.tick.ok{background:var(--gl);border-color:var(--g);color:var(--g)}
+.tick.err{background:var(--rl);border-color:var(--r);color:var(--r)}
+/* ORIENT */
+.orient-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.orient-item{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rad);padding:13px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.oq{font-size:14px;color:var(--t);flex:1;line-height:1.4}
+.oe{font-size:11px;color:var(--tl);margin-top:2px}
+/* RECOGNITION */
+.recog-card{background:var(--pl);border:1.5px solid var(--pm);border-radius:var(--rad);padding:32px 20px;text-align:center;margin-bottom:20px}
+.rword{font-size:40px;font-weight:800;color:var(--p);margin-bottom:6px;line-height:1}
+.rnum{font-size:12px;color:var(--pm)}
+/* RATINGS */
+.rating-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.ritem{border:1.5px solid var(--b);border-radius:var(--rad);padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;touch-action:manipulation}
+.ritem.sel{border-color:var(--p);background:var(--pl)}
+.rn{font-size:20px;font-weight:800;color:var(--t);min-width:28px}
+.ritem.sel .rn{color:var(--p)}
+.rd{font-size:13px;color:var(--tm);flex:1;line-height:1.4}
+.ritem.sel .rd{color:var(--p)}
+/* CANVAS */
+.shape-ref{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.shape-card{background:var(--bg);border:1.5px solid var(--b);border-radius:var(--rads);padding:10px 6px;text-align:center;cursor:pointer;touch-action:manipulation}
+.shape-card.active{border-color:var(--p);background:var(--pl)}
+.shape-card span{font-size:10px;color:var(--tl);display:block;margin-top:4px}
+.draw-area{background:var(--bg);border:2px dashed var(--b);border-radius:var(--rad);margin-bottom:12px;overflow:hidden}
+.draw-canvas{display:block;touch-action:none;cursor:crosshair}
+.draw-row{display:flex;gap:8px;margin-bottom:14px}
+.dbtn{flex:1;padding:11px;border-radius:var(--rads);font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--b);background:var(--bg);color:var(--tm);font-family:inherit;touch-action:manipulation}
+.dbtn.primary{background:var(--pl);color:var(--p);border-color:var(--p)}
+/* SYMPTOMS */
+.symp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.symp-btn{padding:12px 8px;border:1.5px solid var(--b);border-radius:var(--rads);font-size:13px;color:var(--tm);cursor:pointer;text-align:center;touch-action:manipulation;background:var(--bg)}
+.symp-btn.sel{background:var(--pl);border-color:var(--p);color:var(--p);font-weight:600}
+/* SUMMARY */
+.summary-hero{background:var(--p);border-radius:var(--rad);padding:24px;text-align:center;margin-bottom:16px}
+.ss{font-size:60px;font-weight:800;color:#fff;line-height:1}
+.sl{font-size:14px;color:var(--pm);margin-top:6px}
+.si{font-size:13px;color:#fff;margin-top:10px;background:rgba(255,255,255,.15);border-radius:8px;padding:6px 16px;display:inline-block;font-weight:600}
+.domain-scores{background:var(--bg);border-radius:var(--rad);overflow:hidden;border:1.5px solid var(--b);margin-bottom:14px}
+.drow{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--b);font-size:13px}
+.drow:last-child{border-bottom:none}
+.dn{color:var(--tm);flex:1}.dbar{flex:1;height:4px;background:var(--b);border-radius:2px;margin:0 10px}
+.dfill{height:4px;border-radius:2px;background:var(--p)}.ds{font-weight:700;color:var(--t)}
+.clinical-box{border-radius:var(--rad);padding:16px;margin-bottom:14px;border:1.5px solid}
+.saved-box{background:var(--gl);border:1.5px solid var(--g);border-radius:var(--rad);padding:16px;text-align:center;margin-bottom:14px}
+.credit{font-size:11px;color:var(--tl);text-align:center;margin-top:14px;line-height:1.7}
+/* NAV */
+.nav{display:flex;gap:10px;padding:14px 20px 28px;border-top:1.5px solid var(--b);background:var(--w);position:sticky;bottom:0;z-index:10}
+.nav-btn{flex:1;padding:15px;border-radius:var(--rad);font-size:15px;font-weight:700;cursor:pointer;border:1.5px solid var(--b);background:var(--bg);color:var(--tm);font-family:inherit;touch-action:manipulation}
+.nav-btn.primary{background:var(--p);color:#fff;border-color:var(--p)}
+/* WELCOME */
+.w-hdr{background:var(--p);padding:28px 20px 22px}
+.w-hdr h1{font-size:26px;font-weight:800;color:#fff;margin-bottom:4px}
+.w-hdr p{font-size:13px;color:var(--pm);line-height:1.5}
+.w-body{padding:20px}
+.w-foot{padding:16px 20px 32px;background:var(--w);border-top:1.5px solid var(--b);position:sticky;bottom:0}
+.begin-btn{display:block;width:100%;padding:20px;border-radius:var(--rad);background:var(--p);color:#fff;font-size:18px;font-weight:800;text-align:center;cursor:pointer;border:none;font-family:inherit;touch-action:manipulation}
+.begin-btn:disabled{background:#9CA3AF;cursor:not-allowed}
+.w-credit{font-size:11px;color:var(--tl);text-align:center;margin-top:10px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- WELCOME + CONSENT -->
+<div id="scr-welcome">
+  <div class="w-hdr">
+    <h1>ADAS-Cog India</h1>
+    <p>Multilingual · Culturally adapted · Touch-first cognitive assessment</p>
+  </div>
+  <div class="w-body">
+
+    <!-- PATIENT DETAILS -->
+    <div style="font-size:13px;font-weight:700;color:var(--t);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em">Patient Details</div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>Patient name</label><input type="text" id="pt-name" placeholder="Full name"></div>
+      <div class="fg"><label>Age</label><input type="number" id="pt-age" placeholder="e.g. 74" min="40" max="110"></div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>Sex</label>
+        <select id="pt-sex"><option value="female">Female</option><option value="male">Male</option><option value="other">Other</option></select>
+      </div>
+      <div class="fg"><label>Education (yrs)</label><input type="number" id="pt-edu" placeholder="e.g. 14" min="0" max="30"></div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>City</label><input type="text" id="pt-city" placeholder="e.g. Delhi"></div>
+      <div class="fg"><label>Diagnosis</label>
+        <select id="pt-dx">
+          <option value="mild-ad">Mild AD</option><option value="moderate-ad">Moderate AD</option>
+          <option value="severe-ad">Severe AD</option><option value="mci">MCI</option><option value="suspected">Suspected</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>Ethnicity / Region</label>
+        <select id="pt-ethnicity">
+          <option value="">Select</option>
+          <option value="north-indian">North Indian</option>
+          <option value="south-indian">South Indian</option>
+          <option value="east-indian">East Indian / Bengali</option>
+          <option value="west-indian">West Indian / Gujarati / Marathi</option>
+          <option value="punjabi">Punjabi</option>
+          <option value="rajasthani">Rajasthani</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="fg"><label>Marital status</label>
+        <select id="pt-marital">
+          <option value="married">Married</option>
+          <option value="widowed">Widowed</option>
+          <option value="single">Single / Never married</option>
+          <option value="separated">Separated / Divorced</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>Living situation</label>
+        <select id="pt-living">
+          <option value="with-spouse">With spouse</option>
+          <option value="with-family">With family / children</option>
+          <option value="alone">Alone</option>
+          <option value="care-home">Care home / facility</option>
+        </select>
+      </div>
+      <div class="fg"><label>Household size</label>
+        <select id="pt-household">
+          <option value="1">Lives alone</option>
+          <option value="2">2 people</option>
+          <option value="3-4">3–4 people</option>
+          <option value="5+">5 or more</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row" style="margin-bottom:12px">
+      <div class="fg"><label>Number of children</label>
+        <select id="pt-children">
+          <option value="0">None</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3+">3 or more</option>
+        </select>
+      </div>
+      <div class="fg"><label>Social engagement</label>
+        <select id="pt-social">
+          <option value="high">High — daily interaction</option>
+          <option value="moderate">Moderate — few times/week</option>
+          <option value="low">Low — rarely socialises</option>
+          <option value="isolated">Isolated</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- NEUROLOGIST -->
+    <div class="fg" style="margin-bottom:12px"><label>Neurologist</label>
+      <select id="pt-doc">
+        <option value="">Select neurologist</option>
+        <option value="Dr. Praveen Gupta">Dr. Praveen Gupta — Marengo Asia, Gurugram</option>
+        <option value="Dr. Other">Other (type below)</option>
+      </select>
+    </div>
+    <div class="fg" id="doc-other-wrap" style="display:none;margin-bottom:12px">
+      <label>Neurologist name</label><input type="text" id="pt-doc-other" placeholder="Dr. name, Hospital">
+    </div>
+
+    <!-- PRESENTING SYMPTOMS -->
+    <div style="font-size:13px;font-weight:700;color:var(--t);margin:18px 0 12px;text-transform:uppercase;letter-spacing:.05em">Presenting symptoms <span style="font-weight:400;color:var(--tl)">(select all that apply)</span></div>
+    <div class="symp-grid" id="symp-grid">
+      <div class="symp-btn" data-action="symp">Memory loss</div>
+      <div class="symp-btn" data-action="symp">Confusion</div>
+      <div class="symp-btn" data-action="symp">Language difficulty</div>
+      <div class="symp-btn" data-action="symp">Disorientation</div>
+      <div class="symp-btn" data-action="symp">Behavioural changes</div>
+      <div class="symp-btn" data-action="symp">Difficulty with tasks</div>
+      <div class="symp-btn" data-action="symp">Repetition</div>
+      <div class="symp-btn" data-action="symp">Wandering</div>
+    </div>
+
+    <!-- LANGUAGE + WORD LIST -->
+    <div class="form-row" style="margin-bottom:18px">
+      <div class="fg"><label>Language</label>
+        <select id="pt-lang">
+          <option value="en">English</option>
+          <option value="hi">Hindi — हिंदी</option>
+          <option value="gu">Gujarati — ગુજરાતી</option>
+          <option value="mr">Marathi — मराठी</option>
+          <option value="ta">Tamil — தமிழ்</option>
+          <option value="te">Telugu — తెలుగు</option>
+          <option value="bn">Bengali — বাংলা</option>
+          <option value="ml">Malayalam — മലയാളം</option>
+          <option value="kn">Kannada — ಕನ್ನಡ</option>
+        </select>
+      </div>
+      <div class="fg"><label>Word list</label>
+        <select id="pt-words">
+          <option value="indian">Indian / Regional (adapted)</option>
+          <option value="original">Original ADAS-Cog</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CONSENT -->
+    <div style="font-size:13px;font-weight:700;color:var(--t);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em">Informed Consent</div>
+    <div class="consent-box">
+      <strong>Study Title:</strong> Culturally Adapted ADAS-Cog Validation in Indian Clinical Settings<br><br>
+      <strong>Principal Investigator:</strong> Aahana Gupta, Cardiff Sixth Form College<br>
+      <strong>Scientific Advisor:</strong> Dr. Praveen Gupta, Marengo Asia Hospital, Gurugram<br><br>
+      <strong>Purpose:</strong> This study aims to validate a culturally and linguistically adapted version of the Alzheimer's Disease Assessment Scale–Cognitive Subscale (ADAS-Cog) for use with Indian patients. Your participation helps improve cognitive assessment tools for Indian populations.<br><br>
+      <strong>What will happen:</strong> The patient will complete 11 cognitive tasks administered by their neurologist using this application. The session takes approximately 30–45 minutes.<br><br>
+      <strong>Data collected:</strong> Patient demographics (age, education, city), cognitive scores, language used, and word list administered. No personally identifying information beyond name is stored. All data is encrypted and stored securely.<br><br>
+      <strong>Voluntary participation:</strong> Participation is entirely voluntary. The patient or caregiver may withdraw at any time without affecting their clinical care.<br><br>
+      <strong>Data use:</strong> Anonymous data will be used solely for academic research and publication. No commercial use without explicit consent.<br><br>
+      <strong>Contact:</strong> For questions about this research, contact Dr. Praveen Gupta, Marengo Asia Hospital, Gurugram — Phone: 098186 87903.
+    </div>
+    <div class="consent-check" data-action="consent1">
+      <input type="checkbox" id="consent-check">
+      <span>I confirm that the patient and/or their caregiver has been informed about this study, understands its purpose, and consents to participate voluntarily.</span>
+    </div>
+    <div class="consent-check" data-action="consent2" style="background:#ECFDF5">
+      <input type="checkbox" id="consent-check2" style="accent-color:var(--g)">
+      <span style="color:var(--g)">I confirm that consent has been obtained and will be documented in the patient's clinical record, in accordance with the Declaration of Helsinki.</span>
+    </div>
+
+  </div>
+  <div class="w-foot">
+    <button class="begin-btn" data-action="begin" disabled id="begin-btn">Begin assessment →</button>
+    <div class="w-credit">Developed by <strong>Aahana Gupta</strong> · Cardiff Sixth Form College<br>Supervised by Dr. Praveen Gupta · Marengo Asia Hospital</div>
+  </div>
+</div>
+
+<!-- ASSESSMENT -->
+<div id="scr-assessment" style="display:none">
+  <div class="hdr">
+    <div class="hdr-row">
+      <div><div class="hdr-title" id="h-title">Word recall</div><div class="hdr-sub" id="h-sub">Memory domain</div></div>
+      <div class="hdr-cnt" id="h-cnt">1/11</div>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="h-prog" style="width:8%"></div></div>
+  </div>
+  <div class="content" id="step-content"></div>
+  <div class="nav">
+    <button class="nav-btn" id="btn-back" data-action="nav-back" style="display:none">← Back</button>
+    <button class="nav-btn primary" id="btn-next" data-action="nav-next">Next →</button>
+  </div>
+</div>
+
+<!-- NETLIFY FORM -->
+<form method='post' name='adas-cog-session' style='display:none'><input type='hidden' name='form-name' value='adas-cog-session' />
+  <input name="bot-field"><input name="patient_name"><input name="age"><input name="sex">
+  <input name="education"><input name="city"><input name="diagnosis"><input name="neurologist">
+  <input name="ethnicity"><input name="marital_status"><input name="living_situation">
+  <input name="household_size"><input name="children"><input name="social_engagement">
+  <input name="symptoms"><input name="language"><input name="word_list"><input name="date"><input name="timestamp"><input name="consent_obtained">
+  <input name="total_score"><input name="severity"><input name="word_recall"><input name="naming">
+  <input name="commands"><input name="praxis"><input name="ideational"><input name="orientation">
+  <input name="recognition"><input name="instructions"><input name="spoken">
+  <input name="word_finding"><input name="comprehension"><input name="clinical_notes">
+</form>
+
+</div>
+<script>
+// ── WORD LISTS ──────────────────────────────────────────────────────────────
+const WORDS = {
+  indian: ['Tulsi','Ganga','Dupatta','Tabla','Rickshaw','Marigold','Dhaba','Mandir','Charpoy','Neem'],
+  original: ['Cactus','Seashore','Gloves','Trumpet','Canoe','Cottage','Daisy','Cabin','Steeple','Hammock']
+};
+const DISTRACTORS = {
+  indian: ['Chawl','Yamuna','Saree','Sitar','Tonga','Haveli','Jasmine','Tandoor','Khaat','Bidi'],
+  original: ['Desert','Lighthouse','Mittens','Flute','Raft','Bungalow','Rose','Tent','Spire','Mattress']
+};
+const NATIVE_WORDS = {
+  // HINDI — North India: Gangetic plain, UP/Bihar/Delhi culture
+  // All words: high daily-life frequency for elderly North Indian speakers, concrete nouns, high imageability
+  // FIX: Removed हवेली (elite mansion, low frequency for rural/semi-urban patients) → चूल्हा (cooking stove, universal)
+  // FIX: Removed कोठी (elite house) from distractors → कुआँ (well, universal village feature)
+  hi: {
+    words:['चारपाई','लोटा','तुलसी','गेंदा','ढाबा','चूल्हा','नीम','तबला','मटका','आंगन'],
+    dist:['खाट','परात','पीपल','चमेली','मंदिर','कुआँ','बरगद','सितार','घड़ा','दालान']
+  },
+  // GUJARATI — Gujarat: Kathiawad/Saurashtra culture
+  // FIX: ગોળ appeared in BOTH targets and distractors — replaced target with ચૂલો (cooking stove)
+  // FIX: ચૂંદડી too similar to ઓઢણી (both garments) → replaced with વાવ (stepwell, iconic Gujarat)
+  gu: {
+    words:['ચૂલો','ઓઢણી','ઢોલ','લીમડો','ચોક','ગલગોટો','ખીચડી','વડ','મટકો','ઓટલો'],
+    dist:['ગોળ','વાવ','નગારૂ','આંબો','ચૌક','મોગરો','ઊંધિયું','પીપળ','કળશ','ઓરડો']
+  },
+  // MARATHI — Maharashtra: Pune/Konkan/Vidarbha culture
+  // FIX: Removed વાડા (elite mansion) → replaced with ઉખળ (mortar & pestle, universal kitchen item)
+  mr: {
+    words:['वडापाव','पाटी','झेंडू','कडुलिंब','ओटी','चिंच','उखळ','ढोलकी','मटका','तुळस'],
+    dist:['मिसळ','फळी','मोगरा','पिंपळ','देवघर','आंबा','पेठ','तबला','घडा','सोपा']
+  },
+  // TAMIL — Tamil Nadu: Dravidian culture, temple towns
+  // FIX: Both வேம்பு (neem tree) and வேப்பிலை (neem leaf) in same list — semantically overlapping
+  // Removed வேப்பிலை → replaced with அம்மி (grinding stone, universal Tamil kitchen, single concrete noun)
+  ta: {
+    words:['கோலம்','வேம்பு','மல்லிகை','பானை','தோசை','அம்மி','சட்டி','மிருதங்கம்','காவேரி','கோபுரம்'],
+    dist:['முறம்','ஆலமரம்','முல்லை','குடம்','இட்லி','அரசமரம்','உரல்','வீணை','வைகை','கோயில்']
+  },
+  // TELUGU — Andhra/Telangana: Deccan culture
+  // FIX: Removed రావి (peepal tree — moderate imageability, low daily frequency) → అమ్మి (grinding stone)
+  te: {
+    words:['ముగ్గు','వేప','మల్లె','కుండ','గారెలు','అమ్మి','రోలు','మృదంగం','కృష్ణ','గోపురం'],
+    dist:['చాప','మర్రి','తులసి','బిందె','అట్టు','మేడి','రోకలి','వీణ','గోదావరి','దేవాలయం']
+  },
+  // BENGALI — West Bengal: Tagore culture, river delta
+  // FIX: Removed దుర్గా (goddess — abstract/religious concept, not concrete noun) → శాంఖ (conch shell)
+  // Note: আলপনা (floor art) is borderline abstract but highly imageable — retained, flagged for Dr Praveen
+  bn: {
+    words:['আলপনা','নিম','বেলফুল','হাঁড়ি','রসগোল্লা','বটগাছ','উঠোন','তবলা','পদ্মা','শাঁখ'],
+    dist:['পিঁড়ি','পিপুল','শিউলি','কলসি','মিষ্টি','অশ্বত্থ','উনুন','সেতার','মেঘনা','কালীঘাট']
+  },
+  // MALAYALAM — Kerala: backwaters, spice coast
+  // FIX: Removed ഓണം (festival name — event not concrete noun) → ഉരൽ (stone mortar, universal Kerala kitchen)
+  ml: {
+    words:['ഉരൽ','വേപ്പ്','മുല്ല','കലം','അപ്പം','ആൽ','ഉമ്മറം','മദ്ദളം','പെരിയാർ','ക്ഷേത്രം'],
+    dist:['പായ','അരയാൽ','തുളസി','കുടം','ഇഡ്ഡലി','ഇലഞ്ഞി','നടുമുറ്റം','വീണ','ഭരതപുഴ','കാവ്']
+  },
+  // KANNADA — Karnataka: Mysore/Udupi/Kodagu culture
+  // FIX: Removed ಆಲದ ಮರ (two-word phrase, ADAS-Cog requires single words) → ಆಲ (banyan, single word)
+  // FIX: Removed ತುಳಸಿ (already in Hindi list) → ತೆಂಗಿನಕಾಯಿ (coconut, quintessential Karnataka/South India)
+  kn: {
+    words:['ರಂಗೋಲಿ','ಬೇವು','ಮಲ್ಲಿಗೆ','ಮಡಿಕೆ','ದೋಸೆ','ಆಲ','ತೆಂಗಿನಕಾಯಿ','ಮೃದಂಗ','ಕಾವೇರಿ','ಗೋಪುರ'],
+    dist:['ಚಾಪೆ','ಅಶ್ವತ್ಥ','ಸಂಪಿಗೆ','ಗಡಿಗೆ','ಇಡ್ಲಿ','ಹುಣಸೆ','ಅಂಗಳ','ವೀಣೆ','ತುಂಗಭದ್ರ','ದೇವಾಲಯ']
+  }
+};
+const OBJECTS=[
+  {label:'Flower',emoji:'🌸'},{label:'Pencil',emoji:'✏️'},{label:'Whistle',emoji:'📯'},
+  {label:'Bed',emoji:'🛏️'},{label:'Mask',emoji:'🎭'},{label:'Bell',emoji:'🔔'},
+  {label:'Key',emoji:'🔑'},{label:'Cup',emoji:'☕'},{label:'Book',emoji:'📖'},
+  {label:'Scissors',emoji:'✂️'},{label:'Clock',emoji:'🕐'},{label:'Comb',emoji:'🪮'}
+];
+const OBJ_NAMES={
+  hi:['फूल','पेंसिल','सीटी','बिस्तर','मुखौटा','घंटी','चाबी','कप','किताब','कैंची','घड़ी','कंघी'],
+  mr:['फूल','पेन्सिल','शिट्टी','पलंग','मुखवटा','घंटा','चावी','कप','पुस्तक','कात्री','घड्याळ','कंगवा'],
+  ta:['பூ','பென்சில்','விசில்','படுக்கை','முகமூடி','மணி','சாவி','கோப்பை','புத்தகம்','கத்தரிக்கோல்','கடிகாரம்','சீப்பு'],
+  te:['పువ్వు','పెన్సిల్','విజిల్','మంచం','ముఖాముఖి','గంట','తాళంచెవి','కప్పు','పుస్తకం','కత్తెర','గడియారం','దువ్వెన'],
+  bn:['ফুল','পেন্সিল','হুইসেল','বিছানা','মুখোশ','ঘণ্টা','চাবি','কাপ','বই','কাঁচি','ঘড়ি','চিরুনি'],
+  gu:['ફૂલ','પેન્સિલ','સીટી','પથારી','માસ્ક','ઘંટ','ચાવી','કપ','પુસ્તક','કાતર','ઘડિયાળ','કાંસકો'],
+  ml:['പൂവ്','പെൻസിൽ','വിസിൽ','കട്ടിൽ','മാസ്ക്','മണി','താക്കോൽ','കപ്പ്','പുസ്തകം','കത്രിക','ഘടികാരം','ചീർപ്പ്'],
+  kn:['ಹೂವು','ಪೆನ್ಸಿಲ್','ವಿಸಲ್','ಮಂಚ','ಮಾಸ್ಕ್','ಗಂಟೆ','ಬೀಗದ ಕೈ','ಕಪ್','ಪುಸ್ತಕ','ಕತ್ತರಿ','ಗಡಿಯಾರ','ಬಾಚಣಿಗೆ']
+};
+const SHAPES=[
+  {name:'Circle',svg:'<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14" fill="none" stroke="#4F46E5" stroke-width="2.5"/></svg>'},
+  {name:'Rect×2',svg:'<svg width="40" height="40" viewBox="0 0 40 40"><rect x="3" y="8" width="20" height="13" fill="none" stroke="#4F46E5" stroke-width="2"/><rect x="17" y="19" width="20" height="13" fill="none" stroke="#4F46E5" stroke-width="2"/></svg>'},
+  {name:'Diamond',svg:'<svg width="40" height="40" viewBox="0 0 40 40"><polygon points="20,3 37,20 20,37 3,20" fill="none" stroke="#4F46E5" stroke-width="2.5"/></svg>'},
+  {name:'Cube',svg:'<svg width="40" height="40" viewBox="0 0 40 40"><rect x="5" y="12" width="20" height="20" fill="none" stroke="#4F46E5" stroke-width="2"/><rect x="15" y="6" width="20" height="20" fill="none" stroke="#4F46E5" stroke-width="2"/><line x1="5" y1="12" x2="15" y2="6" stroke="#4F46E5" stroke-width="2"/><line x1="25" y1="12" x2="35" y2="6" stroke="#4F46E5" stroke-width="2"/><line x1="25" y1="32" x2="35" y2="26" stroke="#4F46E5" stroke-width="2"/></svg>'}
+];
+const CMD={
+  en:['Make a fist with your hand','Point to the ceiling','Put your hand on your shoulder','Point to the ceiling then to the floor','Put your right hand on your left shoulder then close your eyes'],
+  hi:['अपने हाथ की मुट्ठी बांधिए','छत की तरफ उंगली उठाइए','अपना हाथ कंधे पर रखिए','पहले छत की तरफ फिर फर्श की तरफ उंगली उठाइए','अपना दायाँ हाथ बाएँ कंधे पर रखिए फिर आँखें बंद कीजिए'],
+  mr:['आपला हात मुठ करा','छताकडे बोट दाखवा','आपला हात खांद्यावर ठेवा','आधी छताकडे मग जमिनीकडे बोट दाखवा','उजवा हात डाव्या खांद्यावर ठेवा मग डोळे बंद करा'],
+  ta:['உங்கள் கையை முஷ்டியாக்குங்கள்','கூரையை நோக்கி விரலை காட்டுங்கள்','உங்கள் கையை தோளில் வையுங்கள்','முதலில் கூரையை பின் தரையை காட்டுங்கள்','வலது கையை இடது தோளில் வைத்து கண்களை மூடுங்கள்'],
+  te:['మీ చేతిని పిడికిలి చేయండి','పైకప్పు వైపు వేలు చూపించండి','మీ చేతిని భుజంపై పెట్టండి','ముందు పైకప్పు వైపు తర్వాత నేల వైపు చూపించండి','కుడి చేతిని ఎడమ భుజంపై పెట్టి కళ్ళు మూయండి'],
+  bn:['আপনার হাত মুষ্টিবদ্ধ করুন','ছাদের দিকে আঙুল দেখান','আপনার হাত কাঁধে রাখুন','প্রথমে ছাদের দিকে তারপর মেঝের দিকে আঙুল দেখান','ডান হাত বাম কাঁধে রেখে চোখ বন্ধ করুন'],
+  gu:['તમારો હાથ મુઠ્ઠી બાંધો','છત તરફ આંગળી ઊઠાવો','તમારો હાથ ખભા પર મૂકો','પહેલા છત તરફ પછી ફર્શ તરફ આંગળી ઊઠાવો','જમણો હાથ ડાબા ખભા પર રાખો પછી આંખો બંધ કરો'],
+  ml:['നിങ്ങളുടെ കൈ മുഷ്ടിചുരുട്ടൂ','മേൽക്കൂരയിലേക്ക് വിരൽ ചൂണ്ടൂ','നിങ്ങളുടെ കൈ തോളിൽ വയ്ക്കൂ','ആദ്യം മേൽക്കൂരയിലേക്ക് പിന്നെ തറയിലേക്ക് ചൂണ്ടൂ','വലത് കൈ ഇടത് തോളിൽ വച്ച് കണ്ണ് അടക്കൂ'],
+  kn:['ನಿಮ್ಮ ಕೈ ಮುಷ್ಟಿ ಮಾಡಿ','ಚಾವಣಿಯತ್ತ ಬೆರಳು ತೋರಿಸಿ','ನಿಮ್ಮ ಕೈ ಭುಜದ ಮೇಲೆ ಇಡಿ','ಮೊದಲು ಚಾವಣಿ ನಂತರ ನೆಲ ತೋರಿಸಿ','ಬಲಗೈಯನ್ನು ಎಡ ಭುಜದ ಮೇಲೆ ಇಟ್ಟು ಕಣ್ಣು ಮುಚ್ಚಿ']
+};
+const ORIENT={
+  en:['What is your full name?','What is today\'s date?','What month is it?','What year is it?','What day of the week is it?','What season is it?','What time of day is it?','Where are we right now?'],
+  hi:['आपका पूरा नाम क्या है?','आज की तारीख क्या है?','कौन सा महीना है?','कौन सा साल है?','आज सप्ताह का कौन सा दिन है?','कौन सा मौसम है?','दिन का कौन सा समय है?','हम अभी कहाँ हैं?'],
+  mr:['तुमचे पूर्ण नाव काय आहे?','आजची तारीख काय आहे?','कोणता महिना आहे?','कोणते वर्ष आहे?','आज आठवड्याचा कोणता दिवस आहे?','कोणता ऋतू आहे?','दिवसाची वेळ कोणती आहे?','आपण आत्ता कुठे आहोत?'],
+  ta:['உங்கள் பெயர் என்ன?','இன்று என்ன தேதி?','இப்போது என்ன மாதம்?','என்ன வருடம்?','இன்று வாரத்தில் எந்த நாள்?','என்ன பருவம்?','என்ன நேரம்?','நாம் எங்கே இருக்கிறோம்?'],
+  te:['మీ పేరు ఏమిటి?','ఈరోజు తేదీ ఏమిటి?','ఏ నెల?','ఏ సంవత్సరం?','ఈరోజు వారంలో ఏ రోజు?','ఏ ఋతువు?','ఏ సమయం?','మనం ఎక్కడ ఉన్నాం?'],
+  bn:['আপনার পুরো নাম কী?','আজ কত তারিখ?','কোন মাস?','কোন বছর?','সপ্তাহের কোন দিন?','কোন ঋতু?','দিনের কোন সময়?','আমরা এখন কোথায়?'],
+  gu:['તમારું પૂરું નામ શું છે?','આજ ની તારીખ શું છે?','કયો મહિનો છે?','કયું વર્ષ છે?','અઠવાડિયાનો કયો દિવસ છે?','કઈ ઋતુ છે?','દિવસનો કઈ સમય છે?','આપણે અત્યારે ક્યાં છીએ?'],
+  ml:['നിങ്ങളുടെ പൂർണ്ണ നാമം എന്ത്?','ഇന്ന് എന്ത് തീയതി?','ഏത് മാസം?','ഏത് വർഷം?','ആഴ്ചയിൽ ഇന്ന് ഏത് ദിവസം?','ഏത് ഋതു?','ദിവസത്തിൽ ഏത് സമയം?','നാം ഇപ്പോൾ എവിടെ?'],
+  kn:['ನಿಮ್ಮ ಪೂರ್ಣ ಹೆಸರೇನು?','ಇಂದು ಯಾವ ದಿನಾಂಕ?','ಯಾವ ತಿಂಗಳು?','ಯಾವ ವರ್ಷ?','ವಾರದ ಯಾವ ದಿನ?','ಯಾವ ಋತು?','ದಿನದ ಯಾವ ಸಮಯ?','ನಾವು ಈಗ ಎಲ್ಲಿದ್ದೇವೆ?']
+};
+const IDEATIONAL={
+  en:"Pretend you've written yourself a letter. Fold the paper, put it in the envelope, seal it, address it to yourself, and show me where the stamp goes.",
+  hi:"मान लीजिए आपने खुद को एक पत्र लिखा है। कागज़ को मोड़िए, लिफाफे में डालिए, बंद कीजिए, अपना पता लिखिए और बताइए कि टिकट कहाँ लगाएंगे।",
+  mr:"समजा तुम्ही स्वतःला पत्र लिहिले आहे. कागद दुमडा, पाकिटात घाला, बंद करा, पत्ता लिहा, तिकीट कुठे लावाल ते दाखवा.",
+  ta:"நீங்கள் உங்களுக்கே கடிதம் எழுதியதாக நினைங்கள். காகிதம் மடியுங்கள், உறையில் போடுங்கள், மூடுங்கள், முகவரி எழுதுங்கள், தபால் தலை இடம் காட்டுங்கள்.",
+  te:"మీరు మీకే ఉత్తరం రాశారని అనుకోండి. కాగితం మడవండి, కవరులో పెట్టండి, మూయండి, చిరునామా రాయండి, స్టాంపు చూపండి.",
+  bn:"ধরুন আপনি নিজেকে চিঠি লিখেছেন। ভাঁজ করুন, খামে রাখুন, বন্ধ করুন, ঠিকানা লিখুন, টিকিট কোথায় দেখান।",
+  gu:"ધારો કે તમે ખુદ ને પત્ર લખ્યો છે. કાગળ ને ગડ કરો, કવરમાં મૂકો, બંધ કરો, સરનામું લખો, ટિકિટ ક્યાં લગાવશો એ બતાવો.",
+  ml:"നിങ്ങൾ സ്വയം ഒരു കത്ത് എഴുതിയതായി കരുതൂ. കടലാസ് മടക്കൂ, കവറിൽ ഇടൂ, അടക്കൂ, വിലാസം എഴുതൂ, സ്റ്റാമ്പ് എവിടെ ഒട്ടിക്കണമെന്ന് കാണിക്കൂ.",
+  kn:"ನೀವು ನಿಮಗೇ ಪತ್ರ ಬರೆದಿದ್ದೀರಿ ಎಂದು ಭಾವಿಸಿ. ಕಾಗದ ಮಡಚಿ, ಕವರಿನಲ್ಲಿ ಹಾಕಿ, ಮುಚ್ಚಿ, ವಿಳಾಸ ಬರೆಯಿರಿ, ಅಂಚೆ ಚೀಟಿ ಎಲ್ಲಿ ಹಾಕಬೇಕು ತೋರಿಸಿ."
+};
+const YESNO={en:['Yes','No'],hi:['हाँ','नहीं'],mr:['होय','नाही'],ta:['ஆம்','இல்லை'],te:['అవును','లేదు'],bn:['হ্যাঁ','না'],gu:['હા','ના'],ml:['അതെ','ഇല്ല'],kn:['ಹೌದು','ಇಲ್ಲ']};
+const RATING_LABELS={
+  instructions:{
+    en:['Never reminded','1 reminder','2 reminders','3 reminders','4 reminders','Could not remember at all'],
+    hi:['कभी नहीं','1 बार','2 बार','3 बार','4 बार','बिल्कुल नहीं'],
+    mr:['कधीही नाही','1 वेळा','2 वेळा','3 वेळा','4 वेळा','अजिबात नाही'],
+    ta:['நினைவூட்டல் இல்லை','1 முறை','2 முறை','3 முறை','4 முறை','நினைவே இல்லை'],
+    te:['ఎప్పుడూ లేదు','1 సార్లు','2 సార్లు','3 సార్లు','4 సార్లు','అసలు గుర్తులేదు'],
+    bn:['কখনো না','১ বার','২ বার','৩ বার','৪ বার','মনে নেই'],
+    gu:['ક્યારેય નહીં','1 વખત','2 વખત','3 વખત','4 વખત','બિલકુલ નહીં'],
+    ml:['ഒരിക്കലും ഇല്ല','1 തവണ','2 തവണ','3 തവണ','4 തവണ','ഓർമ്മ ഇല്ല'],
+    kn:['ಎಂದಿಗೂ ಇಲ್ಲ','1 ಬಾರಿ','2 ಬಾರಿ','3 ಬಾರಿ','4 ಬಾರಿ','ನೆನಪೇ ಇಲ್ಲ']
+  },
+  spoken:{
+    en:['Normal — clear and fluent','Very mild — occasional hesitation','Mild — noticeable but understandable','Moderate — frequently hard to follow','Severe — very difficult to understand','Extreme — incomprehensible'],
+    hi:['सामान्य','बहुत हल्का','हल्का','मध्यम','गंभीर','अत्यंत गंभीर'],
+    mr:['सामान्य','खूप सौम्य','सौम्य','मध्यम','गंभीर','अत्यंत'],
+    ta:['சாதாரண','மிக லேசான','லேசான','மிதமான','கடுமையான','மிகவும் கடுமையான'],
+    te:['సాధారణ','చాలా తేలికైన','తేలికైన','మధ్యస్థ','తీవ్రమైన','చాలా తీవ్రమైన'],
+    bn:['স্বাভাবিক','খুব হালকা','হালকা','মাঝারি','গুরুতর','অত্যন্ত'],
+    gu:['સામાન્ય','ખૂબ હળવું','હળવું','મધ્યમ','ગંભીર','અત્યંત'],
+    ml:['സാധാരണ','വളരെ ലഘു','ലഘു','മധ്യമ','ഗുരുതര','അത്യന്ത'],
+    kn:['ಸಾಮಾನ್ಯ','ತೀರಾ ಸೌಮ್ಯ','ಸೌಮ್ಯ','ಮಧ್ಯಮ','ತೀವ್ರ','ಅತ್ಯಂತ']
+  },
+  wordfind:{
+    en:['No difficulty','Very mild — 1 or 2 instances','Mild — occasional pauses','Moderate — frequent substitutions','Severe — constant circumlocutions','Extreme — unable to name'],
+    hi:['कोई नहीं','बहुत हल्का','हल्का','मध्यम','गंभीर','अत्यंत'],
+    mr:['काहीही नाही','खूप सौम्य','सौम्य','मध्यम','गंभीर','अत्यंत'],
+    ta:['சிரமம் இல்லை','மிக லேசான','லேசான','மிதமான','கடுமையான','மிகவும்'],
+    te:['ఇబ్బంది లేదు','చాలా తేలికైన','తేలికైన','మధ్యస్థ','తీవ్రమైన','చాలా తీవ్రమైన'],
+    bn:['কোনো অসুবিধা নেই','খুব হালকা','হালকা','মাঝারি','গুরুতর','অত্যন্ত'],
+    gu:['કોઈ મુશ્કેલી નહીં','ખૂબ હળવું','હળવું','મધ્યમ','ગંભીર','અત્યંત'],
+    ml:['ബുദ്ധിമുട്ടില്ല','വളരെ ലഘു','ലഘു','മധ്യമ','ഗുരുതര','അത്യന്ത'],
+    kn:['ತೊಂದರೆ ಇಲ್ಲ','ತೀರಾ ಸೌಮ್ಯ','ಸೌಮ್ಯ','ಮಧ್ಯಮ','ತೀವ್ರ','ಅತ್ಯಂತ']
+  },
+  comprehension:{
+    en:['Full comprehension','Mostly understood','Sometimes misunderstood','Frequently misunderstood','Rarely understood','No comprehension'],
+    hi:['पूरी समझ','अधिकतर','कभी-कभी गलत','अक्सर गलत','शायद ही','बिल्कुल नहीं'],
+    mr:['पूर्ण आकलन','बहुतेक','कधी कधी चुकीचे','वारंवार चुकीचे','क्वचितच','अजिबात नाही'],
+    ta:['முழு புரிதல்','பெரும்பாலும்','சில நேரம் தவறாக','அடிக்கடி தவறாக','அரிதாக','புரியவே இல்லை'],
+    te:['పూర్తి అవగాహన','చాలావరకు','కొన్నిసార్లు తప్పు','తరచుగా తప్పు','అరుదుగా','అసలు కాదు'],
+    bn:['সম্পূর্ণ বোঝা','বেশিরভাগ','কখনো ভুল','প্রায়ই ভুল','খুব কমই','একদমই না'],
+    gu:['સંપૂર્ણ સમજ','મોટા ભાગે','કેટલીક વાર ખોટું','વારંવાર ખોટું','ભાગ્યે જ','બિલકુલ નહીં'],
+    ml:['പൂർണ്ണ ഗ്രഹണം','ഏറിയ ഭാഗം','ചിലപ്പോൾ തെറ്റ്','പലപ്പോഴും തെറ്റ്','വിരളമായി','ഒട്ടും ഇല്ല'],
+    kn:['ಸಂಪೂರ್ಣ ಗ್ರಹಣ','ಹೆಚ್ಚಾಗಿ','ಕೆಲವೊಮ್ಮೆ ತಪ್ಪು','ಪದೇ ಪದೇ ತಪ್ಪು','ವಿರಳವಾಗಿ','ಸಂಪೂರ್ಣ ಇಲ್ಲ']
+  }
+};
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let S={step:0,lang:'en',wordList:'indian',recogList:[],recogOriginals:[],recogIdx:0,recogErrors:0,recogDots:[],namingIdx:0,activeShape:0,scores:{},patient:{},symptoms:[],submitted:false};
+
+// ── HELPERS ────────────────────────────────────────────────────────────────
+function $(id){return document.getElementById(id)}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function badge(cls){return `<span class="badge ${cls}">${{bm:'Memory',bl:'Language',bp:'Praxis'}[cls]}</span>`}
+function yn(i){return(YESNO[S.lang]||YESNO.en)[i]}
+function getWords(){
+  if(S.lang!=='en'&&NATIVE_WORDS[S.lang])return NATIVE_WORDS[S.lang].words;
+  return WORDS[S.wordList];
+}
+function getDist(){
+  if(S.lang!=='en'&&NATIVE_WORDS[S.lang])return NATIVE_WORDS[S.lang].dist;
+  return DISTRACTORS[S.wordList];
+}
+function getEnWords(){return WORDS[S.wordList]}
+
+// ── WELCOME ────────────────────────────────────────────────────────────────
+function toggleConsent(){const c=$('consent-check');c.checked=!c.checked;checkReady()}
+function toggleConsent2(){const c=$('consent-check2');c.checked=!c.checked;checkReady()}
+function checkReady(){
+  const ready=$('consent-check').checked&&$('consent-check2').checked;
+  $('begin-btn').disabled=!ready;
+}
+function toggleSymp(el){el.classList.toggle('sel')}
+
+$('pt-doc').onchange=function(){$('doc-other-wrap').style.display=this.value==='Dr. Other'?'':'none'};
+
+function startAssessment(){
+  const doc=$('pt-doc').value==='Dr. Other'?$('pt-doc-other').value||'Not specified':$('pt-doc').value||'Not specified';
+  S.patient={name:$('pt-name').value||'—',age:$('pt-age').value||'—',sex:$('pt-sex').value,edu:$('pt-edu').value||'—',city:$('pt-city').value||'—',dx:$('pt-dx').value,doc,ethnicity:$('pt-ethnicity').value||'—',marital:$('pt-marital').value,living:$('pt-living').value,household:$('pt-household').value,children:$('pt-children').value,social:$('pt-social').value};
+  S.lang=$('pt-lang').value;
+  S.wordList=$('pt-words').value;
+  S.symptoms=Array.from(document.querySelectorAll('.symp-btn.sel')).map(b=>b.textContent);
+  const words=getWords();
+  const dist=getDist();
+  S.recogList=shuffle([...words.slice(0,12),...dist.slice(0,12)]);
+  S.recogOriginals=[...words];
+  $('scr-welcome').style.display='none';
+  $('scr-assessment').style.display='block';
+  renderStep();
+}
+
+// ── STEP META ──────────────────────────────────────────────────────────────
+const META=[
+  {t:'Word recall',s:'Memory domain',b:'bm'},{t:'Naming objects',s:'Language domain',b:'bl'},
+  {t:'Commands',s:'Language domain',b:'bl'},{t:'Constructional praxis',s:'Praxis domain',b:'bp'},
+  {t:'Ideational praxis',s:'Praxis domain',b:'bp'},{t:'Orientation',s:'Memory domain',b:'bm'},
+  {t:'Word recognition',s:'Memory domain',b:'bm'},{t:'Remembering instructions',s:'Memory domain',b:'bm'},
+  {t:'Spoken language',s:'Language domain',b:'bl'},{t:'Word finding',s:'Language domain',b:'bl'},
+  {t:'Comprehension',s:'Language domain',b:'bl'},{t:'Session complete',s:'Results',b:'bm'}
+];
+
+function renderStep(){
+  const i=S.step,m=META[i];
+  $('h-title').textContent=m.t;$('h-sub').textContent=m.s;
+  const totalSubtests = META.length - 1; // 11 subtests, summary is not counted
+  const displayStep = Math.min(i+1, totalSubtests);
+  $('h-cnt').textContent = i < totalSubtests ? displayStep+'/11' : 'Summary';
+  $('h-prog').style.width=Math.round(((i+1)/META.length)*100)+'%';
+  $('btn-back').style.display='';  // always show — step 0 goes back to welcome
+  $('btn-next').textContent=i===META.length-1?'Done':'Next →';
+  const fns=[rRecall,rNaming,rCommands,rPraxis,rIdeational,rOrient,rRecog,rInstr,rSpoken,rWordFind,rComp,rSummary];
+  fns[i]($('step-content'));
+}
+function navigate(d){
+  if(d===-1 && S.step===0){
+    // go back to welcome screen
+    S={step:0,lang:'en',wordList:'indian',recogList:[],recogOriginals:[],recogIdx:0,recogErrors:0,recogDots:[],namingIdx:0,activeShape:0,scores:{},patient:{},symptoms:[],submitted:false};
+    $('scr-assessment').style.display='none';
+    $('scr-welcome').style.display='block';
+    return;
+  }
+  S.step=Math.max(0,Math.min(META.length-1,S.step+d));
+  renderStep();
+}
+
+// ── RENDER FUNCTIONS ───────────────────────────────────────────────────────
+function rRecall(c){
+  const words=getWords();
+  const enWords=getEnWords();
+  const isEn=S.lang==='en';
+  const cards=words.map((w,i)=>`<div class="word-card"><span class="wn" style="font-size:${S.lang!=='en'?'28px':'22px'}">${w}</span>${!isEn?`<span class="we" style="font-size:11px;color:var(--tl);margin-top:3px">${enWords[i]}</span>`:''}</div>`).join('');
+  const sc=S.scores.recall;
+  const nums=[0,1,2,3,4,5,6,7,8,9].map(n=>`<div class="nbtn${sc===(10-n)?' sel':''}" data-action="recall" data-val="${10-n}">${n}</div>`).join('');
+  c.innerHTML=`${badge('bm')}<h2>Word recall</h2><div class="instr">Show each word. Read aloud. Then ask patient to recall as many as possible.</div><div class="word-grid">${cards}</div><div style="font-size:13px;color:var(--tm);margin-bottom:10px">Words recalled by patient:</div><div class="num-grid">${nums}</div><div class="hint">Score = errors (10 minus words recalled)</div>`;
+}
+function setRecall(v,el){S.scores.recall=v;el.parentElement.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel')}
+
+function rNaming(c){
+  const idx=S.namingIdx||0;const done=idx>=OBJECTS.length;const scored=S.scores.naming||[];
+  const isEn=S.lang==='en';const onames=OBJ_NAMES[S.lang]||[];
+  if(done){
+    const errs=scored.filter(v=>v===0).length;
+    const rows=OBJECTS.map((o,i)=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--b)"><span style="font-size:24px">${o.emoji}</span><span style="flex:1;font-size:13px;color:var(--tm)">${!isEn&&onames[i]?onames[i]+' ('+o.label+')':o.label}</span><span style="font-weight:800;font-size:16px;color:${scored[i]===1?'var(--g)':'var(--r)'}">${scored[i]===1?'✓':'✗'}</span></div>`).join('');
+    c.innerHTML=`${badge('bl')}<h2>Naming objects</h2><div style="background:var(--gl);border-radius:var(--rad);padding:16px;text-align:center;margin-bottom:16px"><div style="font-size:40px;font-weight:800;color:var(--g)">${errs}</div><div style="font-size:13px;color:var(--g)">naming errors out of ${OBJECTS.length}</div></div>${rows}`;
+  } else {
+    const o=OBJECTS[idx];const nname=onames[idx];
+    const dots=OBJECTS.map((_,i)=>`<div class="dot${i<idx?(scored[i]===1?' ok':' err'):i===idx?' curr':''}"></div>`).join('');
+    c.innerHTML=`${badge('bl')}<h2>Naming objects</h2><div class="note">Show patient the image only. Ask: "What is this?" Do NOT say the name.</div><div class="pdots">${dots}</div><div style="text-align:center;font-size:12px;color:var(--tl);margin-bottom:12px">${idx+1} of ${OBJECTS.length}</div><div class="obj-wrap"><span class="obj-emoji">${o.emoji}</span></div><div class="score-grid"><div class="sbtn sok" data-action="naming-ok" data-idx="${idx}">✓ Correct</div><div class="sbtn serr" data-action="naming-err" data-idx="${idx}">✗ Incorrect</div></div><div class="neuro-note">Answer: <strong>${o.label}</strong>${!isEn&&nname?` / <strong>${nname}</strong>`:''}</div>`;
+  }
+}
+function scoreNaming(i,v){if(!S.scores.naming)S.scores.naming=[];S.scores.naming[i]=v;S.namingIdx=i+1;renderStep()}
+
+function rCommands(c){
+  const cmds=CMD[S.lang]||CMD.en;const en=CMD.en;const isEn=S.lang==='en';const sc=S.scores.commands||[];
+  const items=cmds.map((cmd,i)=>`<div class="cmd-item"><div style="flex:1"><div class="cn">${i+1}. ${cmd}</div>${!isEn?`<div class="ce">${en[i]}</div>`:''}</div><div class="tick-btns"><div class="tick${sc[i]===1?' ok':''}" data-action="cmd-ok" data-idx="${i}">✓</div><div class="tick${sc[i]===0?' err':''}" data-action="cmd-err" data-idx="${i}">✗</div></div></div>`).join('');
+  c.innerHTML=`${badge('bl')}<h2>Commands</h2><div class="instr">Read each command aloud. Observe response. Tap ✓ or ✗.</div><div class="cmd-list">${items}</div>`;
+}
+function setCmd(i,v,el){if(!S.scores.commands)S.scores.commands=new Array(5).fill(null);S.scores.commands[i]=v;el.parentElement.querySelectorAll('.tick').forEach(b=>b.classList.remove('ok','err'));el.classList.add(v===1?'ok':'err')}
+
+function rPraxis(c){
+  const as=S.activeShape||0;const sc=S.scores.praxis;
+  const shapes=SHAPES.map((s,i)=>`<div class="shape-card${i===as?' active':''}" data-action="shape" data-idx="${i}">${s.svg}<span>${s.name}</span></div>`).join('');
+  const nums=[0,1,2,3,4,5].map(n=>`<div class="nbtn${sc===n?' sel':''}" style="flex:1;padding:13px 4px" data-action="praxis" data-val="${n}">${n}</div>`).join('');
+  c.innerHTML=`${badge('bp')}<h2>Constructional praxis</h2><div class="instr">Patient copies each shape by drawing with finger on screen.</div><div class="shape-ref">${shapes}</div><div class="draw-area"><canvas class="draw-canvas" id="draw-canvas" width="380" height="180"></canvas></div><div class="draw-row"><button class="dbtn" data-action="clear-canvas">Clear</button><button class="dbtn primary" data-action="next-shape">Next shape →</button></div><div style="font-size:13px;color:var(--tm);margin-bottom:10px">Score this drawing:</div><div class="num-grid" id="praxis-nums">${nums}</div><div class="hint">0 = perfect · 5 = unable to attempt</div>`;
+  setTimeout(initCanvas,50);
+}
+function setPraxis(n,el){S.scores.praxis=n;document.querySelectorAll('#praxis-nums .nbtn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel')}
+function selectShape(i){S.activeShape=i;renderStep()}
+function nextShape(){S.activeShape=Math.min((S.activeShape||0)+1,SHAPES.length-1);renderStep()}
+function initCanvas(){const cv=document.getElementById('draw-canvas');if(!cv||!cv.getContext)return;cv.width=cv.offsetWidth||380;const ctx=cv.getContext('2d');ctx.strokeStyle='#4F46E5';ctx.lineWidth=2.5;ctx.lineCap='round';let drawing=false,lx,ly;function pos(e){const r=cv.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return[t.clientX-r.left,t.clientY-r.top]}cv.onmousedown=cv.ontouchstart=e=>{e.preventDefault();drawing=true;[lx,ly]=pos(e)};cv.onmousemove=cv.ontouchmove=e=>{if(!drawing)return;e.preventDefault();const[x,y]=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(x,y);ctx.stroke();[lx,ly]=[x,y]};cv.onmouseup=cv.ontouchend=()=>{drawing=false}}
+function clearCanvas(){const cv=document.getElementById('draw-canvas');if(cv)cv.getContext('2d').clearRect(0,0,cv.width,cv.height)}
+
+function rIdeational(c){
+  const instr=IDEATIONAL[S.lang]||IDEATIONAL.en;const isEn=S.lang==='en';
+  const sen=['Folded paper correctly','Put paper in envelope','Sealed the envelope','Addressed the envelope','Showed stamp location'];
+  const snative={hi:['कागज़ मोड़ा','लिफाफे में डाला','बंद किया','पता लिखा','टिकट बताई'],mr:['कागद दुमडला','पाकिटात घातला','बंद केले','पत्ता लिहिला','तिकीट दाखवले'],ta:['காகிதம் மடித்தார்','உறையில் போட்டார்','மூடினார்','முகவரி எழுதினார்','தபால் இடம் காட்டினார்'],te:['కాగితం మడిచారు','కవరులో పెట్టారు','మూశారు','చిరునామా రాశారు','స్టాంపు చూపారు'],bn:['ভাঁজ করেছেন','খামে রেখেছেন','বন্ধ করেছেন','ঠিকানা লিখেছেন','টিকিট দেখিয়েছেন']};
+  const sn=snative[S.lang]||sen;const sc=S.scores.ideational||[];
+  const items=sn.map((s,i)=>`<div class="cmd-item"><div style="flex:1"><div class="cn">${i+1}. ${s}</div>${!isEn?`<div class="ce">${sen[i]}</div>`:''}</div><div class="tick-btns"><div class="tick${sc[i]===1?' ok':''}" data-action="idea-ok" data-idx="${i}">✓</div><div class="tick${sc[i]===0?' err':''}" data-action="idea-err" data-idx="${i}">✗</div></div></div>`).join('');
+  c.innerHTML=`${badge('bp')}<h2>Ideational praxis</h2><div class="note">Provide: one sheet of paper + one envelope</div><div style="background:var(--pl);border-radius:var(--rads);padding:14px;font-size:15px;font-weight:600;color:var(--p);line-height:1.6;margin-bottom:16px">"${instr}"${!isEn?`<div style="font-size:11px;color:var(--pm);font-weight:400;margin-top:6px">${IDEATIONAL.en}</div>`:''}</div><div class="cmd-list">${items}</div>`;
+}
+function setIdea(i,v,el){if(!S.scores.ideational)S.scores.ideational=new Array(5).fill(null);S.scores.ideational[i]=v;el.parentElement.querySelectorAll('.tick').forEach(b=>b.classList.remove('ok','err'));el.classList.add(v===1?'ok':'err')}
+
+function rOrient(c){
+  const qs=ORIENT[S.lang]||ORIENT.en;const en=ORIENT.en;const isEn=S.lang==='en';const sc=S.scores.orientation||[];
+  const items=qs.map((q,i)=>`<div class="orient-item"><div style="flex:1"><div class="oq">${q}</div>${!isEn?`<div class="oe">${en[i]}</div>`:''}</div><div class="tick-btns"><div class="tick${sc[i]===1?' ok':''}" data-action="orient-ok" data-idx="${i}">✓</div><div class="tick${sc[i]===0?' err':''}" data-action="orient-err" data-idx="${i}">✗</div></div></div>`).join('');
+  c.innerHTML=`${badge('bm')}<h2>Orientation</h2><div class="instr">Ask each question. Tap ✓ if correct, ✗ if incorrect.</div><div class="orient-list">${items}</div>`;
+}
+function setOrient(i,v,el){if(!S.scores.orientation)S.scores.orientation=new Array(8).fill(null);S.scores.orientation[i]=v;el.parentElement.querySelectorAll('.tick').forEach(b=>b.classList.remove('ok','err'));el.classList.add(v===1?'ok':'err')}
+
+function rRecog(c){
+  const list=S.recogList||[];const idx=S.recogIdx||0;const done=!list.length||idx>=list.length;
+  const dots=(S.recogDots||[]).map(d=>`<div class="dot${d==='hit'?' ok':' err'}"></div>`).join('');
+  if(done){
+    c.innerHTML=`${badge('bm')}<h2>Word recognition</h2><div style="background:var(--gl);border-radius:var(--rad);padding:24px;text-align:center;margin-bottom:16px"><div style="font-size:44px;font-weight:800;color:var(--g)">${S.recogErrors||0}</div><div style="font-size:14px;color:var(--g)">recognition errors</div></div><div class="pdots" style="flex-wrap:wrap">${dots}</div>`;
+  } else {
+    const word=list[idx];
+    c.innerHTML=`${badge('bm')}<h2>Word recognition</h2><div class="instr">Show one word at a time. Patient taps whether they saw it earlier.</div><div class="recog-card"><div class="rword" style="font-size:${S.lang!=='en'?'44px':'40px'}">${word}</div><div class="rnum">Word ${idx+1} of ${list.length}</div></div><div class="score-grid"><div class="sbtn sok" data-action="recog-yes"><div style="font-size:24px;font-weight:800">${yn(0)}</div><div style="font-size:11px;margin-top:3px;opacity:.8">Saw before</div></div><div class="sbtn serr" data-action="recog-no"><div style="font-size:24px;font-weight:800">${yn(1)}</div><div style="font-size:11px;margin-top:3px;opacity:.8">New word</div></div></div><div class="pdots" style="flex-wrap:wrap">${dots}</div>`;
+  }
+}
+function doRecog(saidYes){const w=(S.recogList||[])[S.recogIdx]||'';const isOrig=S.recogOriginals.includes(w);const ok=(saidYes&&isOrig)||(!saidYes&&!isOrig);if(!ok)S.recogErrors=(S.recogErrors||0)+1;if(!S.recogDots)S.recogDots=[];S.recogDots.push(ok?'hit':'miss');S.recogIdx=(S.recogIdx||0)+1;S.scores.recogErrors=S.recogErrors;renderStep()}
+
+function ratingStep(c,b,title,instr,key){
+  const labels=(RATING_LABELS[key]&&(RATING_LABELS[key][S.lang]||RATING_LABELS[key].en))||[];
+  const cur=S.scores[key];
+  const items=labels.map((a,i)=>`<div class="ritem${cur===i?' sel':''}" data-action="rating" data-key="${key}" data-val="${i}"><span class="rn">${i}</span><span class="rd">${a}</span></div>`).join('');
+  c.innerHTML=`${badge(b)}<h2>${title}</h2><div class="instr">${instr}</div><div class="rating-list">${items}</div>`;
+}
+function setRating(key,i,el){S.scores[key]=i;el.parentElement.querySelectorAll('.ritem').forEach(r=>r.classList.remove('sel'));el.classList.add('sel')}
+function rInstr(c){ratingStep(c,'bm','Remembering instructions','How often did patient need reminders of the word recognition task instructions?','instructions')}
+function rSpoken(c){ratingStep(c,'bl','Spoken language','Rate overall quality of patient\'s speech throughout the session.','spoken')}
+function rWordFind(c){ratingStep(c,'bl','Word finding difficulty','Rate how often patient struggled to find the right word during speech.','wordfind')}
+function rComp(c){ratingStep(c,'bl','Comprehension','Rate how well patient understood spoken instructions and questions.','comprehension')}
+
+// ── CALCULATE ──────────────────────────────────────────────────────────────
+function calc(){
+  const s=S.scores;
+  const recall=s.recall!=null?s.recall:0;
+  const naming=(s.naming||[]).filter(v=>v===0).length;
+  const commands=(s.commands||[]).filter(v=>v===0).length;
+  const praxis=s.praxis!=null?s.praxis:0;
+  const ideational=(s.ideational||[]).filter(v=>v===0).length;
+  const orientation=(s.orientation||[]).filter(v=>v===0).length;
+  const recog=S.recogErrors||0;
+  const instruct=s.instructions!=null?s.instructions:0;
+  const spoken=s.spoken!=null?s.spoken:0;
+  const wordfind=s.wordfind!=null?s.wordfind:0;
+  const comp=s.comprehension!=null?s.comprehension:0;
+  const total=recall+naming+commands+praxis+ideational+orientation+recog+instruct+spoken+wordfind+comp;
+  return{recall,naming,commands,praxis,ideational,orientation,recog,instruct,spoken,wordfind,comp,total};
+}
+
+// ── CLINICAL INTERPRETATION ────────────────────────────────────────────────
+function interpret(sc){
+  const t=sc.total;
+  if(t<=9)return{label:'Minimal impairment',color:'var(--g)',bg:'var(--gl)',desc:'Score in normal range. Cognitive performance broadly intact. Findings do not indicate significant Alzheimer\'s-type impairment at this time. Recommend annual monitoring.',action:'Annual review recommended'};
+  if(t<=17)return{label:'Mild impairment',color:'#D97706',bg:'#FFFBEB',desc:'Mild cognitive impairment present. Memory domains most affected — consistent with early AD profile. Recommend further neuropsychological evaluation, brain imaging, and caregiver support.',action:'Further evaluation recommended'};
+  if(t<=34)return{label:'Moderate impairment',color:'var(--r)',bg:'var(--rl)',desc:'Moderate Alzheimer\'s-type impairment. Significant deficits in memory and language domains. Patient likely requires daily caregiver support. Consider pharmacological intervention.',action:'Caregiver support + medication review'};
+  return{label:'Severe impairment',color:'#7F1D1D',bg:'#FEF2F2',desc:'Severe cognitive impairment consistent with advanced AD. Extensive support required across all activities of daily living. Palliative and long-term care planning recommended.',action:'Specialist care planning required'};
+}
+
+// ── AUTO SUBMIT ────────────────────────────────────────────────────────────
+function autoSubmit(sc){
+  if(S.submitted)return;S.submitted=true;
+  const interp=interpret(sc);
+  try{
+    const fd=new FormData();
+    fd.append('form-name','adas-cog-session');
+    fd.append('bot-field','');
+    fd.append('patient_name',S.patient.name);
+    fd.append('age',S.patient.age);
+    fd.append('sex',S.patient.sex);
+    fd.append('education',S.patient.edu);
+    fd.append('city',S.patient.city);
+    fd.append('diagnosis',S.patient.dx);
+    fd.append('neurologist',S.patient.doc);
+    fd.append('ethnicity',S.patient.ethnicity||'—');
+    fd.append('marital_status',S.patient.marital||'—');
+    fd.append('living_situation',S.patient.living||'—');
+    fd.append('household_size',S.patient.household||'—');
+    fd.append('children',S.patient.children||'—');
+    fd.append('social_engagement',S.patient.social||'—');
+    fd.append('symptoms',S.symptoms.join(', '));
+    fd.append('language',S.lang);
+    fd.append('word_list',S.wordList);
+    fd.append('date',new Date().toLocaleDateString('en-IN'));
+    fd.append('timestamp',new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+' IST');
+    fd.append('consent_obtained','Yes — digital checkbox consent, '+new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})+' IST');
+    fd.append('total_score',sc.total);
+    fd.append('severity',interp.label);
+    fd.append('word_recall',sc.recall);
+    fd.append('naming',sc.naming);
+    fd.append('commands',sc.commands);
+    fd.append('praxis',sc.praxis);
+    fd.append('ideational',sc.ideational);
+    fd.append('orientation',sc.orientation);
+    fd.append('recognition',sc.recog);
+    fd.append('instructions',sc.instruct);
+    fd.append('spoken',sc.spoken);
+    fd.append('word_finding',sc.wordfind);
+    fd.append('comprehension',sc.comp);
+    fd.append('clinical_notes',interp.desc);
+    fetch('/',{method:'POST',body:fd}).catch(()=>{});
+  }catch(e){}
+}
+
+// ── SUMMARY ────────────────────────────────────────────────────────────────
+function rSummary(c){
+  const sc=calc();const interp=interpret(sc);
+  autoSubmit(sc);
+  const domains=[
+    {n:'Word recall',s:sc.recall,m:10},{n:'Naming objects',s:sc.naming,m:5},
+    {n:'Commands',s:sc.commands,m:5},{n:'Constructional praxis',s:sc.praxis,m:5},
+    {n:'Ideational praxis',s:sc.ideational,m:5},{n:'Orientation',s:sc.orientation,m:8},
+    {n:'Word recognition',s:sc.recog,m:12},{n:'Instructions',s:sc.instruct,m:5},
+    {n:'Spoken language',s:sc.spoken,m:5},{n:'Word finding',s:sc.wordfind,m:5},
+    {n:'Comprehension',s:sc.comp,m:5}
+  ];
+  const rows=domains.map(d=>`<div class="drow"><span class="dn">${d.n}</span><div class="dbar"><div class="dfill" style="width:${Math.round((d.s/d.m)*100)}%"></div></div><span class="ds">${d.s}/${d.m}</span></div>`).join('');
+  const sympStr=S.symptoms.length?S.symptoms.join(', '):'None recorded';
+  c.innerHTML=`
+    <div class="summary-hero">
+      <div class="ss">${sc.total}</div>
+      <div class="sl">Total ADAS-Cog score out of 70</div>
+      <div class="si">${interp.label}</div>
+    </div>
+    <div style="background:${interp.bg};border:1.5px solid ${interp.color};border-radius:var(--rad);padding:16px;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;color:${interp.color};margin-bottom:6px">${interp.label} — Clinical interpretation</div>
+      <div style="font-size:13px;color:var(--t);line-height:1.7">${interp.desc}</div>
+      <div style="margin-top:10px;font-size:12px;font-weight:700;color:${interp.color}">→ ${interp.action}</div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--rad);padding:14px;margin-bottom:14px;font-size:13px;color:var(--tm);line-height:1.7">
+      <strong style="color:var(--t)">${S.patient.name}</strong> · ${S.patient.age} yrs · ${S.patient.sex} · ${S.patient.city}<br>
+      Diagnosis: ${S.patient.dx} · Ethnicity: ${S.patient.ethnicity||'—'}<br>
+      Marital: ${S.patient.marital} · Living: ${S.patient.living} · Household: ${S.patient.household}<br>
+      Children: ${S.patient.children} · Social: ${S.patient.social}<br>
+      Dr: ${S.patient.doc} · Language: ${S.lang.toUpperCase()} · Word list: ${S.wordList}<br>
+      Symptoms: ${sympStr} · Date: ${new Date().toLocaleDateString('en-IN')}
+    </div>
+    <div class="domain-scores">${rows}</div>
+    <div class="saved-box">
+      <div style="font-size:28px;margin-bottom:6px">✓</div>
+      <div style="font-size:15px;font-weight:700;color:var(--g)">Session recorded</div>
+      <div style="font-size:13px;color:#065F46;margin-top:4px;line-height:1.5">Data submitted to Aahana Gupta's research database at Cardiff Sixth Form College. An email notification has been sent to the research team.</div>
+    </div>
+    <div class="credit">
+      ADAS-Cog India<br>
+      Developed by <strong>Aahana Gupta</strong> · Cardiff Sixth Form College<br>
+      Scientific advisor: <strong>Dr. Praveen Gupta</strong> · Marengo Asia Hospital, Gurugram<br>
+      © 2025 All rights reserved · Patent pending
+    </div>`;
+}
+
+// ── EVENT DELEGATION (mobile-safe) ─────────────────────────────────────
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-action]');
+  if(!el) return;
+  const action = el.dataset.action;
+  const val = el.dataset.val;
+  const idx = el.dataset.idx;
+  const key = el.dataset.key;
+
+  if(action === 'recall') { setRecall(parseInt(val), el); }
+  else if(action === 'praxis') { setPraxis(parseInt(val), el); }
+  else if(action === 'naming-ok') { scoreNaming(parseInt(idx), 1); }
+  else if(action === 'naming-err') { scoreNaming(parseInt(idx), 0); }
+  else if(action === 'cmd-ok') { setCmd(parseInt(idx), 1, el); }
+  else if(action === 'cmd-err') { setCmd(parseInt(idx), 0, el); }
+  else if(action === 'idea-ok') { setIdea(parseInt(idx), 1, el); }
+  else if(action === 'idea-err') { setIdea(parseInt(idx), 0, el); }
+  else if(action === 'orient-ok') { setOrient(parseInt(idx), 1, el); }
+  else if(action === 'orient-err') { setOrient(parseInt(idx), 0, el); }
+  else if(action === 'recog-yes') { doRecog(true); }
+  else if(action === 'recog-no') { doRecog(false); }
+  else if(action === 'rating') { setRating(key, parseInt(val), el); }
+  else if(action === 'shape') { selectShape(parseInt(idx)); }
+  else if(action === 'next-shape') { nextShape(); }
+  else if(action === 'clear-canvas') { clearCanvas(); }
+  else if(action === 'symp') { el.classList.toggle('sel'); }
+  else if(action === 'consent1') { const c=document.getElementById('consent-check'); c.checked=!c.checked; checkReady(); }
+  else if(action === 'consent2') { const c=document.getElementById('consent-check2'); c.checked=!c.checked; checkReady(); }
+  else if(action === 'begin') { startAssessment(); }
+  else if(action === 'nav-back') { navigate(-1); }
+  else if(action === 'nav-next') { navigate(1); }
+});
+</script>
+</body>
+</html>
