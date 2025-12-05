@@ -1,0 +1,7 @@
+{
+  "id": "SYN-SPOKEN-LANGUAGE",
+  "task_id": "spoken-language",
+  "is_synthetic": true,
+  "observation_count": 2,
+  "clinical_score": false
+}
