@@ -1,0 +1,16 @@
+{
+  "id": "ideational-praxis",
+  "title": "Ideational praxis",
+  "max_observations": 5,
+  "instruction": "Walk through the source letter-and-envelope sequence with fictional details.",
+  "prompts": [
+    "Fold paper",
+    "Place in envelope",
+    "Close envelope",
+    "Write fictional address",
+    "Indicate stamp position"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 5
+}
