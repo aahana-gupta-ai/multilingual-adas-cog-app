@@ -1,0 +1,7 @@
+{
+  "id": "SYN-REMEMBERING-INSTRUCTIONS",
+  "task_id": "remembering-instructions",
+  "is_synthetic": true,
+  "observation_count": 2,
+  "clinical_score": false
+}
