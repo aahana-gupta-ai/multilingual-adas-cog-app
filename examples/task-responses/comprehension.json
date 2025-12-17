@@ -1,0 +1,7 @@
+{
+  "id": "SYN-COMPREHENSION",
+  "task_id": "comprehension",
+  "is_synthetic": true,
+  "observation_count": 2,
+  "clinical_score": false
+}
