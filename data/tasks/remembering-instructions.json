@@ -1,0 +1,16 @@
+{
+  "id": "remembering-instructions",
+  "title": "Remembering instructions",
+  "max_observations": 5,
+  "instruction": "Record the number of observed reminder events in a fictional interaction.",
+  "prompts": [
+    "Start task",
+    "First reminder",
+    "Second reminder",
+    "Third reminder",
+    "Final review"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 8
+}
