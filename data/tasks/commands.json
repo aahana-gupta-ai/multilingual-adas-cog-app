@@ -1,0 +1,16 @@
+{
+  "id": "commands",
+  "title": "Commands",
+  "max_observations": 5,
+  "instruction": "Walk through the source instructions using fictional examples.",
+  "prompts": [
+    "Make a fist with your hand",
+    "Point to the ceiling",
+    "Put your hand on your shoulder",
+    "Point to the ceiling then to the floor",
+    "Put your right hand on your left shoulder then close your eyes"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 3
+}
