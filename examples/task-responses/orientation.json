@@ -1,0 +1,7 @@
+{
+  "id": "SYN-ORIENTATION",
+  "task_id": "orientation",
+  "is_synthetic": true,
+  "observation_count": 4,
+  "clinical_score": false
+}
