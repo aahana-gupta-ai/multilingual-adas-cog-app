@@ -1,0 +1,14 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {parseCSV,toCSV} from '../src/common/csv.js';import {syntheticId,integerRange} from '../src/common/validation.js';
+import {mean,variance,quantile,seededRandom} from '../src/common/math.js';import {createStore} from '../src/common/state.js';
+import {validTime,timeMinutes,minutesTime} from '../src/common/time.js';import {safeFilename} from '../src/common/download.js';
+import {groupBy,chunks,shuffle} from '../src/common/arrays.js';import {validateCatalog,byId} from '../src/common/data.js';
+test('CSV round-trip preserves commas, quotes, Unicode and line breaks',()=>{const rows=[{name:'a,"b',note:'第一行\nsecond'},{name:'plain',note:''}];assert.deepEqual(parseCSV(toCSV(rows)),rows);});
+test('malformed CSV and duplicate headers fail',()=>{assert.throws(()=>parseCSV('a,a\n1,2'));assert.throws(()=>parseCSV('a\n"oops'));assert.throws(()=>parseCSV('a,b\n1'));});
+test('synthetic identifiers and integer bounds are enforced',()=>{assert.equal(syntheticId('SYN-DEMO-1'),'SYN-DEMO-1');assert.throws(()=>syntheticId('REAL-1'));assert.throws(()=>integerRange(-1,0,10));assert.throws(()=>integerRange(1.5,0,10));});
+test('sample statistics retain missing-size semantics',()=>{assert.equal(mean([]),null);assert.equal(variance([1]),null);assert.equal(mean([1,2,3]),2);assert.equal(variance([1,2,3]),1);assert.equal(quantile([1,3],.5),2);});
+test('seeded random values and non-mutating shuffle',()=>{const a=seededRandom(5),b=seededRandom(5);assert.equal(a(),b());const original=[1,2,3];assert.deepEqual([...shuffle(original,seededRandom(9))].sort(),original);assert.deepEqual(original,[1,2,3]);});
+test('store snapshots cannot mutate internal state',()=>{const store=createStore({a:[1]});const v=store.get();v.a.push(2);assert.deepEqual(store.get(),{a:[1]});let seen=null;const off=store.subscribe(x=>seen=x);store.set({a:[3]});assert.deepEqual(seen,{a:[3]});off();});
+test('clock conversions reject malformed values',()=>{assert.equal(timeMinutes('23:59'),1439);assert.equal(minutesTime(0),'00:00');assert.equal(validTime('24:00'),false);assert.throws(()=>timeMinutes('9:30'));});
+test('safe download names and collection utilities',()=>{assert.equal(safeFilename('../unsafe name'), '..-unsafe-name');assert.deepEqual(chunks([1,2,3],2),[[1,2],[3]]);assert.equal(groupBy([{a:1},{a:1}],'a').get(1).length,2);});
+test('catalog lookup rejects duplicate ids and unsafe paths',()=>{assert.throws(()=>validateCatalog({items:[{id:'a',path:'../x'}]}));assert.throws(()=>validateCatalog({items:[{id:'a',path:'x'},{id:'a',path:'y'}]}));assert.equal(byId([{id:'x'}],'x').id,'x');});
