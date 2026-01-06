@@ -1,0 +1,19 @@
+{
+  "id": "orientation",
+  "title": "Orientation",
+  "max_observations": 8,
+  "instruction": "Use invented responses. Personal names, locations, and other identifiers are not recorded by this demo.",
+  "prompts": [
+    "What is your full name?",
+    "What is today's date?",
+    "What month is it?",
+    "What year is it?",
+    "What day of the week is it?",
+    "What season is it?",
+    "What time of day is it?",
+    "Where are we right now?"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 6
+}
