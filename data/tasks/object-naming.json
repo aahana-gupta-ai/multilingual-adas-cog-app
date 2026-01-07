@@ -1,0 +1,23 @@
+{
+  "id": "object-naming",
+  "title": "Object naming",
+  "max_observations": 12,
+  "instruction": "Record a fictional observation of the twelve object labels.",
+  "prompts": [
+    "Flower",
+    "Pencil",
+    "Whistle",
+    "Bed",
+    "Mask",
+    "Bell",
+    "Key",
+    "Cup",
+    "Book",
+    "Scissors",
+    "Clock",
+    "Comb"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 2
+}
