@@ -1,0 +1,16 @@
+{
+  "id": "word-finding",
+  "title": "Word finding",
+  "max_observations": 5,
+  "instruction": "Record observations across five fictional naming opportunities.",
+  "prompts": [
+    "Object prompt",
+    "Picture prompt",
+    "Action prompt",
+    "Place prompt",
+    "Closing prompt"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 10
+}
