@@ -1,0 +1,23 @@
+{
+  "id": "scenario-word-recognition",
+  "is_synthetic": true,
+  "task_id": "word-recognition",
+  "cases": [
+    {
+      "input": null,
+      "expected_status": "missing"
+    },
+    {
+      "input": 0,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 20,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 21,
+      "expected_error": true
+    }
+  ]
+}
