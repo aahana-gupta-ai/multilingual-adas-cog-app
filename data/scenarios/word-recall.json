@@ -1,0 +1,23 @@
+{
+  "id": "scenario-word-recall",
+  "is_synthetic": true,
+  "task_id": "word-recall",
+  "cases": [
+    {
+      "input": null,
+      "expected_status": "missing"
+    },
+    {
+      "input": 0,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 10,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 11,
+      "expected_error": true
+    }
+  ]
+}
