@@ -1,0 +1,23 @@
+{
+  "id": "scenario-orientation",
+  "is_synthetic": true,
+  "task_id": "orientation",
+  "cases": [
+    {
+      "input": null,
+      "expected_status": "missing"
+    },
+    {
+      "input": 0,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 8,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 9,
+      "expected_error": true
+    }
+  ]
+}
