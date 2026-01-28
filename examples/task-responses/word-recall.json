@@ -1,0 +1,7 @@
+{
+  "id": "SYN-WORD-RECALL",
+  "task_id": "word-recall",
+  "is_synthetic": true,
+  "observation_count": 5,
+  "clinical_score": false
+}
