@@ -1,0 +1,21 @@
+{
+  "id": "word-recall",
+  "title": "Word recall",
+  "max_observations": 10,
+  "instruction": "Record the number of fictional demonstration words recalled. This is a workflow count, not a clinical score.",
+  "prompts": [
+    "Tulsi",
+    "Ganga",
+    "Dupatta",
+    "Tabla",
+    "Rickshaw",
+    "Marigold",
+    "Dhaba",
+    "Mandir",
+    "Charpoy",
+    "Neem"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 1
+}
