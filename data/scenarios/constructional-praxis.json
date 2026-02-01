@@ -1,0 +1,23 @@
+{
+  "id": "scenario-constructional-praxis",
+  "is_synthetic": true,
+  "task_id": "constructional-praxis",
+  "cases": [
+    {
+      "input": null,
+      "expected_status": "missing"
+    },
+    {
+      "input": 0,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 4,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 5,
+      "expected_error": true
+    }
+  ]
+}
