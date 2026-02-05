@@ -1,0 +1,31 @@
+{
+  "id": "word-recognition",
+  "title": "Word recognition",
+  "max_observations": 20,
+  "instruction": "Inspect the original target words and distractors as a demonstration list.",
+  "prompts": [
+    "Tulsi",
+    "Ganga",
+    "Dupatta",
+    "Tabla",
+    "Rickshaw",
+    "Marigold",
+    "Dhaba",
+    "Mandir",
+    "Charpoy",
+    "Neem",
+    "Chawl",
+    "Yamuna",
+    "Saree",
+    "Sitar",
+    "Tonga",
+    "Haveli",
+    "Jasmine",
+    "Tandoor",
+    "Khaat",
+    "Bidi"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 7
+}
