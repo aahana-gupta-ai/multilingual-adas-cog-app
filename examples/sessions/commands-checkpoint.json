@@ -1,0 +1,29 @@
+{
+  "id": "SYN-CHECKPOINT-03",
+  "project_id": "multilingual-adas-cog-app",
+  "is_synthetic": true,
+  "created_at": "2026-10-05T00:00:00Z",
+  "payload": {
+    "language": "en",
+    "responses": {
+      "word-recall": {
+        "task_id": "word-recall",
+        "observation_count": 5,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "object-naming": {
+        "task_id": "object-naming",
+        "observation_count": 6,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "commands": {
+        "task_id": "commands",
+        "observation_count": 2,
+        "status": "recorded",
+        "clinical_score": false
+      }
+    }
+  }
+}
