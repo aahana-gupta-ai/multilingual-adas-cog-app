@@ -1,0 +1,179 @@
+{
+  "project": "multilingual-adas-cog-app",
+  "items": [
+    {
+      "id": "locale-en",
+      "title": "English",
+      "path": "data/locales/en.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-en",
+      "title": "English demonstration word list",
+      "path": "data/wordlists/en.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-hi",
+      "title": "Hindi",
+      "path": "data/locales/hi.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-hi",
+      "title": "Hindi demonstration word list",
+      "path": "data/wordlists/hi.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-gu",
+      "title": "Gujarati",
+      "path": "data/locales/gu.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-gu",
+      "title": "Gujarati demonstration word list",
+      "path": "data/wordlists/gu.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-mr",
+      "title": "Marathi",
+      "path": "data/locales/mr.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-mr",
+      "title": "Marathi demonstration word list",
+      "path": "data/wordlists/mr.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-ta",
+      "title": "Tamil",
+      "path": "data/locales/ta.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-ta",
+      "title": "Tamil demonstration word list",
+      "path": "data/wordlists/ta.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-te",
+      "title": "Telugu",
+      "path": "data/locales/te.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-te",
+      "title": "Telugu demonstration word list",
+      "path": "data/wordlists/te.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-bn",
+      "title": "Bengali",
+      "path": "data/locales/bn.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-bn",
+      "title": "Bengali demonstration word list",
+      "path": "data/wordlists/bn.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-ml",
+      "title": "Malayalam",
+      "path": "data/locales/ml.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-ml",
+      "title": "Malayalam demonstration word list",
+      "path": "data/wordlists/ml.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "locale-kn",
+      "title": "Kannada",
+      "path": "data/locales/kn.json",
+      "kind": "locale"
+    },
+    {
+      "id": "wordlist-kn",
+      "title": "Kannada demonstration word list",
+      "path": "data/wordlists/kn.json",
+      "kind": "wordlist"
+    },
+    {
+      "id": "word-recall",
+      "title": "Word recall",
+      "path": "data/tasks/word-recall.json",
+      "kind": "task"
+    },
+    {
+      "id": "object-naming",
+      "title": "Object naming",
+      "path": "data/tasks/object-naming.json",
+      "kind": "task"
+    },
+    {
+      "id": "commands",
+      "title": "Commands",
+      "path": "data/tasks/commands.json",
+      "kind": "task"
+    },
+    {
+      "id": "constructional-praxis",
+      "title": "Constructional praxis",
+      "path": "data/tasks/constructional-praxis.json",
+      "kind": "task"
+    },
+    {
+      "id": "ideational-praxis",
+      "title": "Ideational praxis",
+      "path": "data/tasks/ideational-praxis.json",
+      "kind": "task"
+    },
+    {
+      "id": "orientation",
+      "title": "Orientation",
+      "path": "data/tasks/orientation.json",
+      "kind": "task"
+    },
+    {
+      "id": "word-recognition",
+      "title": "Word recognition",
+      "path": "data/tasks/word-recognition.json",
+      "kind": "task"
+    },
+    {
+      "id": "remembering-instructions",
+      "title": "Remembering instructions",
+      "path": "data/tasks/remembering-instructions.json",
+      "kind": "task"
+    },
+    {
+      "id": "spoken-language",
+      "title": "Spoken language",
+      "path": "data/tasks/spoken-language.json",
+      "kind": "task"
+    },
+    {
+      "id": "word-finding",
+      "title": "Word finding",
+      "path": "data/tasks/word-finding.json",
+      "kind": "task"
+    },
+    {
+      "id": "comprehension",
+      "title": "Comprehension",
+      "path": "data/tasks/comprehension.json",
+      "kind": "task"
+    }
+  ]
+}
