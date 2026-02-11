@@ -1,0 +1,10 @@
+{
+  "id": "SYN-CHECKPOINT-00",
+  "project_id": "multilingual-adas-cog-app",
+  "is_synthetic": true,
+  "created_at": "2026-10-05T00:00:00Z",
+  "payload": {
+    "language": "en",
+    "responses": {}
+  }
+}
