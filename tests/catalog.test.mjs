@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
+import {validateCatalog} from '../src/common/data.js';import {parseCSV} from '../src/common/csv.js';
+const root=new URL('../',import.meta.url),catalog=validateCatalog(JSON.parse(await readFile(new URL('data/catalog.json',root),'utf8')));
+test('all indexed resources are readable and parseable',async()=>{assert.ok(catalog.items.length>0);for(const item of catalog.items){const text=await readFile(new URL(item.path,root),'utf8');assert.ok(text.length>0);if(item.path.endsWith('.json')){const value=JSON.parse(text);assert.equal(value.id,item.id);}else if(item.path.endsWith('.csv')){const rows=parseCSV(text);assert.ok(rows.length>0);assert.ok(rows.every(r=>r.is_synthetic==='true'));}}});
+test('export example declares its synthetic origin',async()=>{const example=JSON.parse(await readFile(new URL('examples/session.json',root),'utf8'));assert.equal(example.is_synthetic,true);assert.equal(typeof example.payload,'object');});
