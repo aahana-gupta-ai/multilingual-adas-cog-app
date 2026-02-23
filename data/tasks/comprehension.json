@@ -1,0 +1,16 @@
+{
+  "id": "comprehension",
+  "title": "Comprehension",
+  "max_observations": 5,
+  "instruction": "Record observations across five example instructions.",
+  "prompts": [
+    "One-step prompt",
+    "Choice prompt",
+    "Two-step prompt",
+    "Restatement",
+    "Closing review"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 11
+}
