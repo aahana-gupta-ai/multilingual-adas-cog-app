@@ -1,0 +1,23 @@
+{
+  "id": "scenario-ideational-praxis",
+  "is_synthetic": true,
+  "task_id": "ideational-praxis",
+  "cases": [
+    {
+      "input": null,
+      "expected_status": "missing"
+    },
+    {
+      "input": 0,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 5,
+      "expected_status": "recorded"
+    },
+    {
+      "input": 6,
+      "expected_error": true
+    }
+  ]
+}
