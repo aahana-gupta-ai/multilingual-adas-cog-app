@@ -1,0 +1,7 @@
+{
+  "id": "SYN-COMMANDS",
+  "task_id": "commands",
+  "is_synthetic": true,
+  "observation_count": 2,
+  "clinical_score": false
+}
