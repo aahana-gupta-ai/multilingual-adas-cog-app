@@ -1,0 +1,23 @@
+# Secrets and environment settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies and local tools
+node_modules/
+.DS_Store
+Thumbs.db
+__pycache__/
+*.log
+
+# Private data and generated exports (never commit patient information)
+private-data/
+patient-data/
+exports/
+*.csv
+*.xlsx
+*.sqlite
+*.sqlite3
+*.db
