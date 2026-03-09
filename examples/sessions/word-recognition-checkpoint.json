@@ -1,0 +1,53 @@
+{
+  "id": "SYN-CHECKPOINT-07",
+  "project_id": "multilingual-adas-cog-app",
+  "is_synthetic": true,
+  "created_at": "2026-10-05T00:00:00Z",
+  "payload": {
+    "language": "en",
+    "responses": {
+      "word-recall": {
+        "task_id": "word-recall",
+        "observation_count": 5,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "object-naming": {
+        "task_id": "object-naming",
+        "observation_count": 6,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "commands": {
+        "task_id": "commands",
+        "observation_count": 2,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "constructional-praxis": {
+        "task_id": "constructional-praxis",
+        "observation_count": 2,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "ideational-praxis": {
+        "task_id": "ideational-praxis",
+        "observation_count": 2,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "orientation": {
+        "task_id": "orientation",
+        "observation_count": 4,
+        "status": "recorded",
+        "clinical_score": false
+      },
+      "word-recognition": {
+        "task_id": "word-recognition",
+        "observation_count": 10,
+        "status": "recorded",
+        "clinical_score": false
+      }
+    }
+  }
+}
