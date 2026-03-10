@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Demo export envelope",
+  "type": "object",
+  "required": [
+    "id",
+    "project_id",
+    "is_synthetic",
+    "created_at",
+    "payload"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^SYN-"
+    },
+    "project_id": {
+      "const": "multilingual-adas-cog-app"
+    },
+    "is_synthetic": {
+      "const": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}
