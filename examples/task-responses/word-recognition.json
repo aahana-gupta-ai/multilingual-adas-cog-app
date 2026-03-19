@@ -1,0 +1,7 @@
+{
+  "id": "SYN-WORD-RECOGNITION",
+  "task_id": "word-recognition",
+  "is_synthetic": true,
+  "observation_count": 10,
+  "clinical_score": false
+}
