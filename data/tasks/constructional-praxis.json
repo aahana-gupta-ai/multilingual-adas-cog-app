@@ -1,0 +1,15 @@
+{
+  "id": "constructional-praxis",
+  "title": "Constructional praxis",
+  "max_observations": 4,
+  "instruction": "Observe four drawing prompts. Record only a demo completion count.",
+  "prompts": [
+    "Circle",
+    "Overlapping rectangles",
+    "Diamond",
+    "Cube"
+  ],
+  "response_kind": "demonstration-observation-count",
+  "clinical_score": false,
+  "sequence": 4
+}
