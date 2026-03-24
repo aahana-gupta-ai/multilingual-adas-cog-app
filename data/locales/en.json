@@ -1,0 +1,44 @@
+{
+  "id": "locale-en",
+  "code": "en",
+  "name": "English",
+  "source": "Uploaded ADAS-Cog India export, preserved without translation validation",
+  "interface_language": "en",
+  "review_status": "unreviewed",
+  "yes_no": [
+    "Yes",
+    "No"
+  ],
+  "commands": [
+    "Make a fist with your hand",
+    "Point to the ceiling",
+    "Put your hand on your shoulder",
+    "Point to the ceiling then to the floor",
+    "Put your right hand on your left shoulder then close your eyes"
+  ],
+  "orientation": [
+    "What is your full name?",
+    "What is today's date?",
+    "What month is it?",
+    "What year is it?",
+    "What day of the week is it?",
+    "What season is it?",
+    "What time of day is it?",
+    "Where are we right now?"
+  ],
+  "ideational": "Pretend you've written yourself a letter. Fold the paper, put it in the envelope, seal it, address it to yourself, and show me where the stamp goes.",
+  "object_names": [
+    "Flower",
+    "Pencil",
+    "Whistle",
+    "Bed",
+    "Mask",
+    "Bell",
+    "Key",
+    "Cup",
+    "Book",
+    "Scissors",
+    "Clock",
+    "Comb"
+  ]
+}
