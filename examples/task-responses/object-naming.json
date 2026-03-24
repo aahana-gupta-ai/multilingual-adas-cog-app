@@ -1,0 +1,7 @@
+{
+  "id": "SYN-OBJECT-NAMING",
+  "task_id": "object-naming",
+  "is_synthetic": true,
+  "observation_count": 6,
+  "clinical_score": false
+}
