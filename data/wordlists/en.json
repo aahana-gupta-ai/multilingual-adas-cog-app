@@ -1,0 +1,30 @@
+{
+  "id": "wordlist-en",
+  "language": "en",
+  "targets": [
+    "Tulsi",
+    "Ganga",
+    "Dupatta",
+    "Tabla",
+    "Rickshaw",
+    "Marigold",
+    "Dhaba",
+    "Mandir",
+    "Charpoy",
+    "Neem"
+  ],
+  "distractors": [
+    "Chawl",
+    "Yamuna",
+    "Saree",
+    "Sitar",
+    "Tonga",
+    "Haveli",
+    "Jasmine",
+    "Tandoor",
+    "Khaat",
+    "Bidi"
+  ],
+  "review_status": "unreviewed",
+  "source": "Uploaded web prototype"
+}
