@@ -3,7 +3,6 @@
   "title": "Multilingual ADAS-Cog App",
   "mode": "local-demo",
   "external_services": false,
-  "expected_files": 160,
   "original_source_included": true,
   "topics": [
     "data-science",
