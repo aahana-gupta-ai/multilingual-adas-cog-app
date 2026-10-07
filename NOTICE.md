@@ -1,3 +1,9 @@
-# Rights and source notice
+# Repository notice
 
-No new open-source license has been assigned. Uploaded files may contain existing rights notices, which remain intact. New starter code is provided for the requested project bundle; obtain the owner's approval before claiming authorship or applying a redistribution license. No affiliations, patents, endorsements, deployments, or impact figures are established by this generated package.
+This repository is a public research and demonstration record.
+
+It includes original project material alongside later documentation, synthetic examples, tests, and demo scaffolding created to make the work inspectable without exposing participant data.
+
+No open-source licence has been assigned unless a file states otherwise. Existing third-party notices and rights remain in force.
+
+Nothing in this repository should be interpreted as clinical advice, a validated diagnostic product, or evidence beyond the underlying research itself.
