@@ -1,46 +1,48 @@
-# Multilingual ADAS-Cog App
+# Multilingual ADAS-Cog
 
-Culturally aware cognitive-assessment workflows.
+**Exploring how language and cultural context can change cognitive assessment.**
 
-**Package status:** runnable portfolio starter. Only the ADAS-Cog repository also contains supplied original web source in `legacy/`. Other project production code was not supplied. Newly generated code must not be represented as the original implementation.
+This repository documents my work on culturally adapted ADAS-Cog workflows and a multilingual assessment interface developed alongside my dementia-assessment research.
 
-## What works in this starter
+## The question
 
-- Eleven observation workflows with explicit missing responses.
-- Nine source-language resource sets; the new interface remains English.
-- Fictional session JSON export and a preserved original web application under legacy/.
+Standardised cognitive tests are designed to make judgement measurable. But what happens when the language, examples, or assumptions inside the test do not match the patient being assessed?
 
-## Run
+That question led me to study how ADAS-Cog performance changes across linguistic and cultural contexts, and to build a multilingual workflow that could support more context-aware data collection.
+
+## What this repository demonstrates
+
+- Structured ADAS-Cog observation workflows
+- Multilingual resource sets for assessment support
+- Explicit handling of missing responses
+- Session export for reproducible analysis
+- A preserved version of the earlier web application in `legacy/`
+
+## Why I built it
+
+My research began with a broader concern: a score can look objective while still carrying assumptions about language and culture. Building the interface let me test that problem not only as a research question, but as a design problem.
+
+## Run the demonstration
 
 ```bash
 python3 scripts/serve.py
 ```
 
-Open http://127.0.0.1:8000. Use the bundled example content. No dependency install or account is required.
+Then open `http://127.0.0.1:8000`.
 
-## Verify
+## Repository structure
 
-```bash
-node --test
-node scripts/verify.mjs
-```
+- `legacy/` — preserved earlier web application
+- `src/` — current demonstration interface and reusable helpers
+- `data/` — demonstration resources
+- `tests/` — behaviour and data-integrity tests
+- `docs/` — architecture, provenance, and workflow notes
+- `schemas/`, `examples/` — documented export formats
 
-## Contents
+## Research integrity
 
-- `src/`: functioning browser application and reusable helpers.
-- `data/`: indexed demonstration resources.
-- `tests/`: behavior and data-integrity tests.
-- `docs/`: architecture, provenance, integration limits, and workflow guides.
-- `schemas/` and `examples/`: documented export formats.
+No patient-identifiable data is included here. Demonstration datasets and examples are synthetic or non-identifying.
 
-Every project is packaged with exactly **160 files**, including code, resources, tests, and documentation; file count is not a measure of research quality.
+The original project, research direction, and supplied legacy application are mine. Parts of the current public portfolio/demo scaffolding were created later with AI-assisted development tools. See `docs/PROVENANCE.md` and `NOTICE.md` for the exact distinction.
 
-## Topics
-
-`data-science` `healthcare` `dementia` `multilingual` `research`
-
-Set these through GitHub's About settings.
-
-## Attribution and rights
-
-Project identity and background come from the uploaded Aahana Gupta descriptions. Starter code and new example content were generated for this bundle. No new open-source license is assigned. Review `NOTICE.md` and `docs/PROVENANCE.md` before public distribution.
+**Themes:** cognitive science · dementia · multilingual technology · human-centred assessment · research
