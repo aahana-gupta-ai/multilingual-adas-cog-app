@@ -10,6 +10,12 @@ Standardised cognitive tests are designed to make judgement measurable. But what
 
 That question led me to study how ADAS-Cog performance changes across linguistic and cultural contexts, and to build a multilingual workflow that could support more context-aware data collection.
 
+## Project chronology
+
+- **2026:** the dementia-assessment work expanded into a multilingual workflow and follow-up research.
+- **October 2026:** this separate public repository was consolidated on GitHub for demonstration, documentation, and reproducibility.
+- The repository date is therefore **not the start date of the underlying research**.
+
 ## What this repository demonstrates
 
 - Structured ADAS-Cog observation workflows
@@ -44,5 +50,7 @@ Then open `http://127.0.0.1:8000`.
 No patient-identifiable data is included here. Demonstration datasets and examples are synthetic or non-identifying.
 
 The original project, research direction, and supplied legacy application are mine. Parts of the current public portfolio/demo scaffolding were created later with AI-assisted development tools. See `docs/PROVENANCE.md` and `NOTICE.md` for the exact distinction.
+
+[See the broader project timeline →](https://github.com/aahana-gupta-ai/aahana-gupta-ai/blob/main/PROJECT_TIMELINE.md)
 
 **Themes:** cognitive science · dementia · multilingual technology · human-centred assessment · research
